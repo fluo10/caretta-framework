@@ -15,3 +15,6 @@ pub mod service_context;
 pub use service_context::ServiceContext;
 
 pub mod model;
+
+#[cfg(feature = "macros")]
+pub use caretta_framework_macros::Service;

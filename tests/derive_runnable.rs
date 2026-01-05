@@ -1,10 +1,12 @@
-use caretta_framework::util::RunnableCommand;
-use caretta_framework_macros::RunnableCommand;
+#![cfg(feature = "macros")]
+
+use caretta_framework::{types::AppInfo, util::RunnableCommand};
+use rmcp::model::Implementation;
 
 struct RunnableCommandStruct1;
 
 impl RunnableCommand for RunnableCommandStruct1 {
-    fn run(self, app_name: &'static str) {
+    fn run(self, _app_info: AppInfo) {
         print!("Run {}", stringify!(RunnableCommandStruct1::run()))
     }
 }
@@ -25,5 +27,5 @@ async fn test() {
     let runnable = RunnableCommandStruct2 {
         runnable: RunnableCommandEnum::Struct1(RunnableCommandStruct1),
     };
-    runnable.run("runnable_app");
+    runnable.run(AppInfo { name: "example", info: Implementation::from_build_env() });
 }

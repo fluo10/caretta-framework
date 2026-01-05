@@ -1,7 +1,8 @@
+#![cfg(feature = "macros")]
+
 use std::collections::{HashMap, HashSet};
 
 use caretta_framework::util::Emptiable;
-use caretta_framework_macros::Emptiable;
 
 #[derive(Debug, PartialEq, Emptiable)]
 struct EmptiableStruct {

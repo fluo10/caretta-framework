@@ -6,13 +6,13 @@ use rmcp::{
     tool, tool_handler, tool_router,
 };
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, caretta_framework::mcp::Service)]
 pub struct Service {
+    #[service_context]
     pub context: &'static ServiceContext,
     pub tool_router: ToolRouter<Service>,
 }
 
-#[tool_router]
 impl Service {
     pub fn new(context: &'static ServiceContext) -> Self {
         Self {
@@ -20,21 +20,8 @@ impl Service {
             tool_router: Self::tool_router(),
         }
     }
-    /// Ping device.
-    ///
-    /// This function is for connectivity test so it's works between non-authorized devices.
-    #[tool(description = "Ping to remote device")]
-    async fn dev_ping(
-        &self,
-        params: Parameters<DevPingRequest>,
-    ) -> Result<Json<DevPingResponse>, ErrorData> {
-        self.context
-            .dev_ping(params.0)
-            .await
-            .map(|x| Json(x))
-            .map_err(Into::<ErrorData>::into)
-    }
 }
+
 #[tool_handler(meta = Meta(rmcp::object!({"tool_meta_key": "tool_meta_value"})))]
 impl rmcp::ServerHandler for Service {
     fn get_info(&self) -> ServerInfo {
