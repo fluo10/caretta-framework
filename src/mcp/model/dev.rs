@@ -16,7 +16,7 @@ pub struct DevPingResponse {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
-pub struct DevResetRequest;
+pub struct DevToolsRequest;
 
 #[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
-pub struct DevResetResponse;
+pub struct DevToolsResponse;

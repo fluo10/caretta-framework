@@ -184,6 +184,15 @@ pub fn service(input: TokenStream) -> TokenStream {
                 idents,
                 "Service struct must have one field with service_context attribute",
             );
+            let field_type_deref = match field_type {
+                syn::Type::Path(type_path) => {
+                    syn::Type::Path(type_path)
+                },
+                syn::Type::Reference(type_reference) => {
+                    *type_reference.elem
+                },
+                _ => todo!(),
+            };
 
             quote! {
                 #[tool_router]
@@ -196,7 +205,7 @@ pub fn service(input: TokenStream) -> TokenStream {
                         &self,
                         params: ::rmcp::handler::server::wrapper::Parameters<::caretta_framework::mcp::model::DevPingRequest>,
                     ) -> Result<::rmcp::Json<::caretta_framework::mcp::model::DevPingResponse>, ::rmcp::model::ErrorData> {
-                        <#field_type as ::caretta_framework::mcp::Api>::dev_ping(self.#field_ident,params.0)
+                        <#field_type_deref as ::caretta_framework::mcp::Api>::dev_ping(self.#field_ident,params.0)
                             .await
                             .map(|x| Json(x))
                             .map_err(Into::<ErrorData>::into)
