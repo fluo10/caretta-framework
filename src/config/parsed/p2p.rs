@@ -1,17 +1,17 @@
 use clap::Args;
 use serde::{Deserialize, Serialize};
 
-use crate::types::{EndpointPublicKey, EndpointSecretKey};
+use crate::types::{DevicePublicKey, DeviceSecretKey};
 use crate::util::{Emptiable, Mergeable};
 
 #[derive(Args, Clone, Debug, Default, Deserialize, Serialize)]
 pub struct ParsedP2pConfig {
     #[serde(skip_serializing)]
     #[arg(long = "p2p-secret-key", env = "P2P_SECRET_KEY")]
-    pub secret_key: Option<EndpointSecretKey>,
+    pub secret_key: Option<DeviceSecretKey>,
     #[serde(skip_deserializing)]
     #[arg(skip)]
-    pub public_key: Option<EndpointPublicKey>,
+    pub public_key: Option<DevicePublicKey>,
     #[arg(long = "p2p-enable-n0", env = "P2P_ENABLE_N0")]
     pub enable_n0: Option<bool>,
     #[arg(long = "p2p-enable-mdns", env = "P2P_ENABLE_MDNS")]

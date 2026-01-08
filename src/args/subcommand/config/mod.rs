@@ -1,35 +1,34 @@
-use caretta_framework_core::util::RunnableCommand;
+mod check;
+use check::*;
+
+mod show;
 use clap::{Args, Subcommand};
+use show::*;
 
-mod client;
-mod server;
+use crate::util::RunnableCommand;
 
-use client::ConfigClientCommandArgs;
-use server::ConfigServerCommandArgs;
-
-#[derive(Debug, Args)]
+#[derive(Args, Debug)]
 pub struct ConfigCommandArgs {
     #[command(subcommand)]
     command: ConfigSubcommand,
 }
 
 impl RunnableCommand for ConfigCommandArgs {
-    fn run(self, app_name: &'static str) {
-        self.command.run(app_name)
+    fn run(self, app_info: crate::types::AppInfo) {
+        self.command.run(app_info)
     }
 }
-
-#[derive(Debug, Subcommand)]
-enum ConfigSubcommand {
-    Client(ConfigClientCommandArgs),
-    Server(ConfigServerCommandArgs),
+#[derive(Subcommand, Debug)]
+pub enum ConfigSubcommand {
+    Check(ConfigCheckCommandArgs),
+    Show(ConfigShowCommandArgs)
 }
 
 impl RunnableCommand for ConfigSubcommand {
-    fn run(self, app_name: &'static str) {
+    fn run(self, app_info: crate::types::AppInfo) {
         match self {
-            Self::Client(x) => x.run(app_name),
-            Self::Server(x) => x.run(app_name),
+            ConfigSubcommand::Check(x) => x.run(app_info),
+            ConfigSubcommand::Show(x) => x.run(app_info),
         }
     }
 }

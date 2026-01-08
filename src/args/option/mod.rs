@@ -1,3 +1,8 @@
+#[cfg(feature = "desktop-cli")]
+mod client;
+#[cfg(feature = "desktop-cli")]
+pub use client::*;
+
 mod config;
 #[cfg(feature = "client")]
 mod device_identifier;

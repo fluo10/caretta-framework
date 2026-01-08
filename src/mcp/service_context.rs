@@ -8,8 +8,7 @@ use tokio_stream::StreamExt as _;
 
 use crate::{
     mcp::{
-        Api,
-        model::{self, DevicePingRequest, DevicePingResponse},
+        Api,model::{self, *}
     },
     types::{AppDatabase, Database},
 };
@@ -25,10 +24,12 @@ pub struct ServiceContext {
 #[async_trait::async_trait]
 impl Api for ServiceContext {
     type Error = ErrorData;
-    async fn device_ping(
+
+    #[cfg(feature = "server-devtools")]
+    async fn dev_ping(
         &self,
-        params: DevicePingRequest,
-    ) -> Result<DevicePingResponse, ErrorData> {
+        params: DevPingRequest,
+    ) -> Result<DevPingResponse, ErrorData> {
         let target = params.target;
         let public_key = target
             .to_public_key(&self.database)
@@ -45,7 +46,7 @@ impl Api for ServiceContext {
                 .ping(&self.iroh_endpoint, discovered.into_endpoint_addr())
                 .await
             {
-                Ok(x) => Ok(DevicePingResponse { rtt: x }),
+                Ok(x) => Ok(DevPingResponse { rtt: x }),
                 Err(e) => Err(model::Error::DevicePingFailed(format!("{:?}", e)).into()),
             }
         } else {

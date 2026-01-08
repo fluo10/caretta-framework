@@ -31,7 +31,7 @@ impl From<Error> for ErrorData {
 impl From<DiscoveryError> for Error {
     fn from(value: DiscoveryError) -> Self {
         match value {
-            DiscoveryError::NoResults { endpoint_id, meta } => {
+            DiscoveryError::NoResults { endpoint_id, meta:_ } => {
                 Error::DeviceNotFound(DeviceIdentifier::PublicKey(endpoint_id.into()))
             }
             x => Error::DeviceDiscoveryFailed(format!("{:?}", x)),

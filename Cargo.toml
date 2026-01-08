@@ -16,7 +16,6 @@ server = [
     "dep:iroh-blobs",
     "dep:iroh-docs",
     "dep:iroh-gossip",
-    "dep:iroh-ping",
     "dep:rand",
     "dep:sea-orm",
     "dep:sea-orm-migration",
@@ -44,6 +43,14 @@ desktop-server = [
 ]
 
 macros = ["dep:caretta-framework-macros"]
+devtools = []
+server-devtools = [
+    "devtools",
+    "dep:iroh-ping",
+]
+client-devtools = [
+    "devtools",
+]
 
 [dependencies]
 async-trait.workspace = true

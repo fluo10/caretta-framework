@@ -12,6 +12,8 @@ pub struct ConfigOptionArgs {
     pub file_path: Option<PathBuf>,
     #[command(flatten)]
     pub args: ParsedConfig,
+    #[arg(short, long)]
+    pub verbose: bool
 }
 
 impl ConfigOptionArgs {

@@ -1,5 +1,8 @@
-// mod config;
-mod device;
+mod config;
+pub use config::*;
 
-// pub use config::ConfigCommandArgs;
-pub use device::DeviceCommandArgs;
+#[cfg(all(feature = "desktop-cli", feature="devtools"))]
+mod devtools;
+
+#[cfg(all(feature = "desktop-cli", feature = "devtools"))]
+pub use devtools::*;

@@ -1,4 +1,4 @@
-use caretta_id::CarettaId;
+// use caretta_id::CarettaId;
 use rmcp::schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -15,10 +15,10 @@ pub enum WorkspaceIdentifier {
 
 #[cfg(feature = "server")]
 impl WorkspaceIdentifier {
-    pub async fn to_public_key(&self, db: &Database) -> Result<Option<WorkspacePublicKey>, Error> {
+    pub async fn to_public_key(&self, _db: &Database) -> Result<Option<WorkspacePublicKey>, Error> {
         match self {
-            WorkspaceIdentifier::Id(x) => todo!(),
-            WorkspaceIdentifier::Name(x) => todo!(),
+            WorkspaceIdentifier::Id(_x) => todo!(),
+            WorkspaceIdentifier::Name(_x) => todo!(),
             WorkspaceIdentifier::PublicKey(x) => Ok(Some(x.clone())),
         }
     }

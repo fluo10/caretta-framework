@@ -1,4 +1,4 @@
-use caretta_framework::{parser::ServerParser, types::AppInfo, util::RunnableCommand as _};
+use caretta_framework::{args::parser::ServerParser, types::AppInfo, util::RunnableCommand as _};
 use caretta_framework_example_core::APP_NAME;
 use clap::Parser;
 use rmcp::model::Implementation;

@@ -5,7 +5,7 @@ pub struct LogConfig {
 }
 
 impl LogConfig {
-    pub fn init_tracing_subscriber(&self) {
+    pub fn init_tracing_subscriber(&self, verbose: bool) {
         tracing_subscriber::fmt().with_max_level(self.level).init();
     }
 }

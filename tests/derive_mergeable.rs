@@ -1,7 +1,7 @@
+#![cfg(feature = "macros")]
 use std::collections::{HashMap, HashSet};
 
 use caretta_framework::util::Mergeable;
-use caretta_framework_macros::Mergeable;
 
 #[derive(Clone, Debug, PartialEq)]
 struct MergeableTuple(Option<u8>);

@@ -45,10 +45,13 @@ impl Client {
 #[async_trait::async_trait]
 impl Api for Client {
     type Error = ClientError;
-    async fn device_ping(
+
+    /// Send ping message to another node.
+    #[cfg(feature = "devtools")]
+    async fn dev_ping(
         &self,
-        params: DevicePingRequest,
-    ) -> Result<DevicePingResponse, Self::Error> {
+        params: DevPingRequest,
+    ) -> Result<DevPingResponse, Self::Error> {
         let tool_result = self
             .service
             .call_tool(CallToolRequestParam {

@@ -142,9 +142,9 @@ pub fn runnable_command(input: TokenStream) -> TokenStream {
             );
 
             quote! {
-                impl RunnableCommand for #type_ident {
-                    fn run(self, app_name: &'static str) {
-                        <#field_type as RunnableCommand>::run(self.#field_ident, app_name)
+                impl ::caretta_framework::util::RunnableCommand for #type_ident {
+                    fn run(self, app_info: ::caretta_framework::types::AppInfo) {
+                        <#field_type as ::caretta_framework::util::RunnableCommand>::run(self.#field_ident, app_info)
                     }
                 }
             }
@@ -154,12 +154,12 @@ pub fn runnable_command(input: TokenStream) -> TokenStream {
             let quote_vec = extract_idents_and_types_from_enum_struct(&variants);
             let quote_iter = quote_vec.iter().map(|(variant_ident, variant_type)| {
                 quote! {
-                    Self::#variant_ident(x) => <#variant_type as RunnableCommand>::run(x, app_name),
+                    Self::#variant_ident(x) => <#variant_type as ::caretta_framework::util::RunnableCommand>::run(x, app_info),
                 }
             });
             quote! {
-                impl RunnableCommand for #type_ident {
-                    fn run(self, app_name: &'static str) {
+                impl ::caretta_framework::util::RunnableCommand for #type_ident {
+                    fn run(self, app_info: ::caretta_framework::types::AppInfo) {
                         match self {
                             #(#quote_iter)*
                         }
@@ -169,5 +169,51 @@ pub fn runnable_command(input: TokenStream) -> TokenStream {
             .into()
         }
         _ => panic!("struct or enum expected, but got union."),
+    }
+}
+
+#[proc_macro_derive(Service, attributes(service_context))]
+pub fn service(input: TokenStream) -> TokenStream {
+    let input = parse_macro_input!(input as DeriveInput);
+    let type_ident = input.ident;
+    match input.data {
+        Data::Struct(ref data) => {
+            let idents =
+                extract_idents_and_types_from_data_struct_with_attribute(data, "service_context");
+            let (field_ident, field_type) = unwrap_vec_or_panic(
+                idents,
+                "Service struct must have one field with service_context attribute",
+            );
+            let field_type_deref = match field_type {
+                syn::Type::Path(type_path) => {
+                    syn::Type::Path(type_path)
+                },
+                syn::Type::Reference(type_reference) => {
+                    *type_reference.elem
+                },
+                _ => todo!(),
+            };
+
+            quote! {
+                #[tool_router]
+                impl #type_ident {
+                    /// Ping device.
+                    ///
+                    /// This function is for connectivity test so it's works between non-authorized devices.
+                    #[tool(description = "Ping to remote device")]
+                    async fn dev_ping(
+                        &self,
+                        params: ::rmcp::handler::server::wrapper::Parameters<::caretta_framework::mcp::model::DevPingRequest>,
+                    ) -> Result<::rmcp::Json<::caretta_framework::mcp::model::DevPingResponse>, ::rmcp::model::ErrorData> {
+                        <#field_type_deref as ::caretta_framework::mcp::Api>::dev_ping(self.#field_ident,params.0)
+                            .await
+                            .map(|x| Json(x))
+                            .map_err(Into::<ErrorData>::into)
+                    }
+                }
+            }
+            .into()
+        }
+        _ => panic!("struct expected, but got union or enum."),
     }
 }

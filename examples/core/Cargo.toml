@@ -8,10 +8,10 @@ repository.workspace = true
 publish = false
 
 [features]
-server = ["caretta-framework/server", "dep:caretta-framework-example-migration"]
+server = ["caretta-framework/server", "caretta-framework/server-devtools", "dep:caretta-framework-example-migration"]
 
 [dependencies]
-caretta-framework.workspace = true
+caretta-framework = { workspace = true, features = ["devtools"] } 
 caretta-framework-example-migration = {path = "../migration", optional = true}
 rmcp.workspace = true
 serde_json.workspace = true

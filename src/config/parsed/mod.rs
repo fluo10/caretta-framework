@@ -143,9 +143,6 @@ impl ParsedConfig {
         let config_dir = Self::default_config_path(app_name)?;
         Self::read_or_create_from_path(config_dir)
     }
-    pub fn init_tracing_subscriber(&self) {
-        self.to_log_config().unwrap().init_tracing_subscriber();
-    }
 
     /// Create [`ServerConfig`] from `ParsedConfig`
     #[cfg(feature = "desktop-server")]
@@ -165,12 +162,11 @@ impl ParsedConfig {
     pub fn into_client_config(
         self,
         app_name: &'static str,
-        verbose: bool,
     ) -> Result<ClientConfig, ParsedConfigError> {
         let config = self.as_ref();
         let mcp = config.to_mcp_config()?;
         let log = config.to_log_config()?;
-        Ok(ClientConfig { mcp, log, verbose })
+        Ok(ClientConfig { mcp, log })
     }
 }
 

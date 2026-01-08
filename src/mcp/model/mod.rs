@@ -1,3 +1,8 @@
+#[cfg(feature = "devtools")]
+mod dev;
+#[cfg(feature = "devtools")]
+pub use dev::*;
+
 mod device_identifier;
 mod device_info;
 mod error;
@@ -11,23 +16,9 @@ pub use workspace_identifier::*;
 
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use std::time::Duration;
-
-#[cfg(feature = "server")]
-use rmcp::handler::server::tool::ToolRouter;
 
 use crate::types::DocTicket;
 
-
-#[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
-pub struct DevicePingRequest {
-    pub target: DeviceIdentifier,
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
-pub struct DevicePingResponse {
-    pub rtt: Duration,
-}
 
 #[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
 pub struct DeviceGetRequest {

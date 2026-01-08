@@ -5,7 +5,6 @@ use iroh::{
 use iroh_blobs::BlobsProtocol;
 use iroh_docs::protocol::Docs;
 use iroh_gossip::Gossip;
-use iroh_ping::Ping;
 
 use crate::config::{P2pConfig, StorageConfig};
 
@@ -34,11 +33,14 @@ pub trait ServerConfigExt {
             .spawn(endpoint.clone(), blobs.clone().into(), gossip.clone())
             .await
             .unwrap();
-        let router = Router::builder(endpoint.clone())
+        let mut router = Router::builder(endpoint.clone())
             .accept(iroh_blobs::ALPN, BlobsProtocol::new(&blobs, None))
             .accept(iroh_docs::ALPN, docs.clone())
-            .accept(iroh_gossip::ALPN, gossip)
-            .accept(iroh_ping::ALPN, Ping::new());
+            .accept(iroh_gossip::ALPN, gossip);
+        #[cfg(feature = "server-devtools")]
+        {
+            router = router.accept(iroh_ping::ALPN, iroh_ping::Ping::new());
+        }
         Ok((endpoint, docs, router))
     }
 }

@@ -11,14 +11,10 @@ use crate::{
 pub struct ClientConfig {
     pub mcp: McpConfig,
     pub log: LogConfig,
-    pub verbose: bool,
 }
 
 impl ClientConfig {
     pub async fn spawn_client(self, client_info: Implementation) -> Client {
-        if self.verbose {
-            self.log.init_tracing_subscriber();
-        }
         Client::connect(&self.mcp.endpoint_url, client_info)
             .await
             .unwrap()

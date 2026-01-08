@@ -1,4 +1,4 @@
-use caretta_framework::{subcommand::DeviceCommandArgs, types::AppInfo, util::RunnableCommand};
+use caretta_framework::{args::subcommand::DevCommandArgs, types::AppInfo, util::RunnableCommand};
 use caretta_framework_example_core::APP_NAME;
 use clap::{Parser, Subcommand};
 use rmcp::model::Implementation;
@@ -17,13 +17,13 @@ impl RunnableCommand for Cli {
 
 #[derive(Debug, Subcommand)]
 enum CliCommand {
-    Device(DeviceCommandArgs),
+    Dev(DevCommandArgs),
 }
 
 impl RunnableCommand for CliCommand {
     fn run(self, app_info: caretta_framework::types::AppInfo) {
         match self {
-            CliCommand::Device(x) => x.run(app_info),
+            CliCommand::Dev(x) => x.run(app_info),
         }
     }
 }

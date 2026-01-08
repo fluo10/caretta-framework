@@ -9,14 +9,14 @@ use crate::{
 #[sea_orm(table_name = "device_config")]
 pub struct Model {
     #[sea_orm(primary_key)]
-    pub id: i64,
+    pub id: i8,
     pub p2p_secret_key: DeviceSecretKey,
     pub p2p_enable_n0: bool,
     pub p2p_enable_mdns: bool,
 }
 
 impl Model {
-    const ID: i64 = 0;
+    const ID: i8 = 0;
 
     pub async fn get_or_try_init<T>(ctx: &T) -> Result<Self, DbErr> 
     where 

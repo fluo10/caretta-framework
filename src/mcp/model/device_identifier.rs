@@ -1,10 +1,10 @@
-use caretta_id::CarettaId;
+// use caretta_id::CarettaId;
 use rmcp::schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::types::DevicePublicKey;
 #[cfg(feature = "server")]
-use crate::{mcp::model::{DevicePingRequest, Error}, types::Database};
+use crate::{mcp::model::{Error}, types::Database};
 
 #[derive(Clone, Debug, Serialize, Deserialize, JsonSchema)]
 pub enum DeviceIdentifier {
@@ -15,7 +15,7 @@ pub enum DeviceIdentifier {
 
 #[cfg(feature = "server")]
 impl DeviceIdentifier {
-    pub async fn to_public_key(&self, db: &Database) -> Result<Option<DevicePublicKey>, Error> {
+    pub async fn to_public_key(&self, _db: &Database) -> Result<Option<DevicePublicKey>, Error> {
         match self {
             // DeviceIdentifier::Id(x) => todo!(),
             // DeviceIdentifier::Name(x) => todo!(),

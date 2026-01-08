@@ -1,10 +1,17 @@
-use crate::mcp::model::{DevicePingRequest, DevicePingResponse};
+#[cfg(feature = "devtools")]
+use crate::mcp::model::{DevPingRequest, DevPingResponse};
 
 #[async_trait::async_trait]
 pub trait Api {
     type Error;
-    async fn device_ping(
+
+    /// Ping another device.
+    /// 
+    /// This function is for testing so works between unauthorized devices.
+    #[cfg(feature = "devtools")]
+    async fn dev_ping(
         &self,
-        params: DevicePingRequest,
-    ) -> Result<DevicePingResponse, Self::Error>;
+        params: DevPingRequest,
+    ) -> Result<DevPingResponse, Self::Error>;
+
 }
