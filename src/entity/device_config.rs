@@ -59,7 +59,7 @@ mod tests {
 
     #[tokio::test]
     async fn insert_and_get_record() {
-        let db = crate::tests::database().await;
+        let db = &crate::tests::service_context().await.database;
         let model = Model::get_or_try_init(db).await.unwrap();
         assert_eq!(model, Model::get_or_try_init(db).await.unwrap());
     }
