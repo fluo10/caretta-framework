@@ -6,7 +6,7 @@ use crate::{
 };
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel)]
-#[sea_orm(table_name = "device_config")]
+#[sea_orm(table_name = "config")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i8,
@@ -59,7 +59,7 @@ mod tests {
 
     #[tokio::test]
     async fn insert_and_get_record() {
-        let db = crate::tests::database().await;
+        let db = &crate::tests::service_context().await;
         let model = Model::get_or_try_init(db).await.unwrap();
         assert_eq!(model, Model::get_or_try_init(db).await.unwrap());
     }

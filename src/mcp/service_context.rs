@@ -54,3 +54,21 @@ impl Api for ServiceContext {
         }
     }
 }
+
+impl AsRef<Database> for ServiceContext {
+    fn as_ref(&self) -> &Database {
+        &self.database
+    }
+}
+
+impl AsRef<AppDatabase> for ServiceContext {
+    fn as_ref(&self) -> &AppDatabase {
+        &self.app_database
+    }
+}
+
+impl AsRef<DocsApi> for ServiceContext {
+    fn as_ref(&self) -> &DocsApi {
+        &self.docs
+    }
+}

@@ -71,11 +71,11 @@ impl ParsedConfig {
     /// Fill empty configuration fields with database values
     #[cfg(feature = "server")]
     pub async fn with_database(mut self) -> Self {
-        use crate::entity::device_config;
+        use crate::entity::config;
 
         let db = self.to_storage_config().unwrap().open_database().await;
         let p2p_config = P2pConfig::from(
-            device_config::Model::get_or_try_init(&Box::new(db))
+            config::Model::get_or_try_init(&Box::new(db))
                 .await
                 .unwrap(),
         );
