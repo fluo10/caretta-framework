@@ -11,7 +11,7 @@ impl MigrationTrait for Migration {
                 let db = manager.get_connection();
 
                 db.execute_unprepared(
-                    "CREATE TABLE device_config (
+                    "CREATE TABLE config (
                         id              INTEGER PRIMARY KEY CHECK (id = 0),
                         p2p_secret_key  BLOB NOT NULL,
                         p2p_enable_n0   BOOL NOT NULL,
@@ -20,9 +20,9 @@ impl MigrationTrait for Migration {
                 )
                 .await?;
                 db.execute_unprepared(
-                    "CREATE TABLE workspace_config (
+                    "CREATE TABLE workspace (
                         id         INTEGER PRIMARY KEY,
-                        secret_key BLOB NOT NULL,
+                        public_key BLOB NOT NULL,
                         name       STRING NOT NULL
                     )",
                 )

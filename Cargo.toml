@@ -8,7 +8,7 @@ repository.workspace = true
 exclude = ["/.github", "/.gitignore", "/.gitmodules", "/.vscode"]
 
 [features]
-default = []
+default = ["macros"]
 server = [
     "dep:caretta-framework-migration",
     "dep:gethostname",

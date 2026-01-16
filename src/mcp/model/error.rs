@@ -1,6 +1,7 @@
 #[cfg(feature = "server")]
 use iroh::discovery::DiscoveryError;
 use rmcp::ErrorData;
+use sea_orm::DbErr;
 use serde::{Deserialize, Serialize};
 
 use crate::mcp::model::DeviceIdentifier;
@@ -8,6 +9,10 @@ use crate::mcp::model::DeviceIdentifier;
 /// Error returned from McpServer.
 #[derive(Debug, thiserror::Error, Serialize, Deserialize)]
 pub enum Error {
+    #[error("Iroh doc error : {0}")]
+    Docs(String),
+    #[error("database error: {0}")]
+    Database(String),
     #[error("Target device not found: {0}")]
     DeviceNotFound(DeviceIdentifier),
     #[error("Device discovery failed: {0}")]
@@ -36,5 +41,12 @@ impl From<DiscoveryError> for Error {
             }
             x => Error::DeviceDiscoveryFailed(format!("{:?}", x)),
         }
+    }
+}
+
+#[cfg(feature = "server")]
+impl From<DbErr> for Error {
+    fn from(value: DbErr) -> Self {
+        Self::Database(value.to_string())
     }
 }
