@@ -5,7 +5,7 @@ use std::{
 };
 
 use crate::{
-    config::{LogConfig, P2pConfig, ServerConfig, ServerConfigExt as _, StorageConfig, parsed::{ParsedConfig, ParsedLogConfig, ParsedMcpConfig, ParsedP2pConfig, ParsedStorageConfig}}, entity::device_config, mcp::ServiceContext, types::Database, util::Emptiable
+    config::{LogConfig, P2pConfig, ServerConfig, ServerConfigExt as _, StorageConfig, parsed::{ParsedConfig, ParsedLogConfig, ParsedMcpConfig, ParsedP2pConfig, ParsedStorageConfig}}, entity::config, mcp::ServiceContext, types::Database, util::Emptiable
 };
 use caretta_framework_migration::Migrator;
 use iroh::Endpoint;
