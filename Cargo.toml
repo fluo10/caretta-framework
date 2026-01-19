@@ -113,7 +113,7 @@ caretta-framework-migration = {version = "0.0.3", path = "migration"}
 chrono = { version = "0.4.41", features = [ "serde" ]}
 clap = { version = "4.5.53", features = ["derive", "env"] }
 iroh = { version = "0.95.1", features = ["discovery-local-network", "discovery-pkarr-dht"] }
-rmcp = {version = "0.12.0", default-features = false, features = ["base64", "macros", "server"]}
+rmcp = {version = "0.13.0", default-features = false, features = ["base64", "macros", "server"]}
 sea-orm-migration = { version = "2.0.0-rc", features = [ "runtime-tokio-rustls", "sqlx-postgres" ] }
 serde_json = "1.0.145"
 tempfile = "3.20.0"
